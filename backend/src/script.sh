@@ -20,8 +20,7 @@ if [ "$EXISTS" = "False" ]; then
 	python ./manage.py shell -c "
 from users.models import User
 user = User.objects.get(username='$DJANGO_SUPERUSER_USERNAME')
-user.first_name = '$DJANGO_SUPERUSER_FIRSTNAME'
-user.last_name = '$DJANGO_SUPERUSER_LASTNAME'
+user.email = '$DJANGO_SUPERUSER_EMAIL'
 user.save()
 "
 fi

@@ -6,30 +6,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
-import { LogOut, Search, Plus } from "lucide-react"
+import { Search, Plus } from "lucide-react"
 import { EnhancedMap } from "../enhanced-map"
-import { NotificationBell } from "../notifications/notification-bell"
-import { ThemeToggle } from "../theme-toggle"
 import type { Alert } from "@/types"
 import { alertsApi } from "@/lib/api"
 import { alertCategories, AlertCreationForm, severityLevels } from "../alerts/alert-creation-form"
+import { Header } from "./Header"
+import { ProfileModal } from "./profile-modal"
+// import { AlertMap } from "../alerts/alert-map"
 
 export function AgronomistDashboard() {
   const [showPublishForm, setShowPublishForm] = useState(false)
-  {/*const [showProfile, setShowProfile] = useState(false)*/}
+  const [showProfile, setShowProfile] = useState(false)
   const [activeTab, setActiveTab] = useState("alerts")
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCrop, setSelectedCrop] = useState("all")
   const [selectedSeverity, setSelectedSeverity] = useState("all")
-  const { user, logout } = useAuth()
-
-  const handleLogout = async () => {
-    try {
-      await logout()
-    } catch (error) {
-      console.error("Logout failed:", error)
-    }
-  }
+  const { user } = useAuth()
 
   // Update alerts data with more comprehensive information
   const [alerts, setAlerts] = useState<Alert[]>([])
@@ -90,26 +83,7 @@ export function AgronomistDashboard() {
   return (
     <div className="min-h-screen bg-background transition-colors">
       {/* Header */}
-      <header className="bg-card border-b px-4 py-3 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src="/agri-icon" alt="Logo" className="w-10 h-10 rounded-full" />
-            <div className="w-10 h-10 bg-gradient-to-br from-green-600 to-green-700 rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-white text-sm font-bold">CA</span>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Welcome, {user?.username} | Role: {user?.role} </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <NotificationBell />
-            <Button variant="ghost" size="icon" onClick={handleLogout}>
-              <LogOut className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Header setShowProfile={setShowProfile} />
 
       {/* Search and Filters */}
       <div className="p-4 bg-card border-b">
@@ -119,7 +93,7 @@ export function AgronomistDashboard() {
             <Input
               placeholder="Search alerts, crops, or authors..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e: { target: { value: any } }) => setSearchTerm(e.target.value)}
               className="pl-10"
             />
           </div>
@@ -252,10 +226,10 @@ export function AgronomistDashboard() {
           </TabsContent>
         </Tabs>
       </div>
-
+      {/* <AlertMap alerts={alerts}/> */}
       {/* Modals */}
       {showPublishForm && <AlertCreationForm onClose={() => setShowPublishForm(false)} />}
-      {/*showProfile && <ProfileModal user={user} onClose={() => setShowProfile(false)} onUpdate={onUpdateUser} />*/}
+      {showProfile && <ProfileModal onClose={() => setShowProfile(false)} />}
     </div>
   )
 }

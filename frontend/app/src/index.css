@@ -158,3 +158,6 @@
       max-height: 140px !important;
   }
 }
+.leaflet-control-container {
+  @apply hidden;
+}

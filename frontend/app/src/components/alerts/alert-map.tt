@@ -73,8 +73,8 @@ export function AlertMap({
     // Convert alerts to map markers
     const newMarkers: MapMarker[] = alerts.map((alert) => ({
       id: alert.id,
-      lat: alert.location.lat,
-      lng: alert.location.lng,
+      lat: alert.latitude,
+      lng: alert.longitude,
       alert,
       severity: alert.severity,
       category: alert.category,
@@ -107,14 +107,14 @@ export function AlertMap({
   }
 
   const zoomIn = () => {
-    setViewport((prev) => ({
+    setViewport((prev : any) => ({
       ...prev,
       zoom: Math.min(prev.zoom + 1, 18),
     }))
   }
 
   const zoomOut = () => {
-    setViewport((prev) => ({
+    setViewport((prev : any) => ({
       ...prev,
       zoom: Math.max(prev.zoom - 1, 1),
     }))
@@ -122,14 +122,14 @@ export function AlertMap({
 
   const handleMarkerClick = (marker: MapMarker) => {
     onAlertSelect?.(marker.alert)
-    setViewport((prev) => ({
+    setViewport((prev : any) => ({
       ...prev,
       center: [marker.lat, marker.lng],
     }))
   }
 
   // Cluster nearby markers
-  const clusteredMarkers = showClusters ? clusterMarkers(markers, viewport.zoom) : markers
+  const clusteredMarkers = markers
 
   return (
     <Card className={cn("relative overflow-hidden", className)}>
@@ -218,7 +218,7 @@ export function AlertMap({
               >
                 {isCluster ? (
                   // Cluster marker
-                  <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-lg">
+                  <div cla  ssName="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold border-2 border-white shadow-lg">
                     {(marker as any).count}
                   </div>
                 ) : (
@@ -322,8 +322,8 @@ export function AlertMap({
             <CardContent className="pt-0">
               <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{selectedAlert.description}</p>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span>🌾 {selectedAlert.cropType}</span>
-                <span>📍 {selectedAlert.location.address}</span>
+                <span>🌾 {selectedAlert.crop}</span>
+                <span>📍 {selectedAlert.location}</span>
               </div>
             </CardContent>
           </Card>
@@ -334,44 +334,44 @@ export function AlertMap({
 }
 
 // Helper function to cluster nearby markers
-function clusterMarkers(
-  markers: MapMarker[],
-  zoom: number,
-): (MapMarker | { id: string; lat: number; lng: number; count: number })[] {
-  if (zoom > 12) return markers // Don't cluster at high zoom levels
+// function clusterMarkers(
+//   markers: MapMarker[],
+//   zoom: number,
+// ): (MapMarker | { id: string; lat: number; lng: number; count: number })[] {
+//   if (zoom > 12) return markers // Don't cluster at high zoom levels
 
-  const clustered: any[] = []
-  const processed = new Set<string>()
-  const clusterDistance = 0.01 // Adjust based on zoom level
+//   const clustered: any[] = []
+//   const processed = new Set<string>()
+//   const clusterDistance = 0.01 // Adjust based on zoom level
 
-  markers.forEach((marker) => {
-    if (processed.has(marker.id)) return
+//   markers.forEach((marker) => {
+//     if (processed.has(marker.id)) return
 
-    const nearby = markers.filter(
-      (other) =>
-        !processed.has(other.id) &&
-        Math.abs(marker.lat - other.lat) < clusterDistance &&
-        Math.abs(marker.lng - other.lng) < clusterDistance,
-    )
+//     const nearby = markers.filter(
+//       (other) =>
+//         !processed.has(other.id) &&
+//         Math.abs(marker.lat - other.lat) < clusterDistance &&
+//         Math.abs(marker.lng - other.lng) < clusterDistance,
+//     )
 
-    if (nearby.length > 1) {
-      // Create cluster
-      const centerLat = nearby.reduce((sum, m) => sum + m.lat, 0) / nearby.length
-      const centerLng = nearby.reduce((sum, m) => sum + m.lng, 0) / nearby.length
+//     if (nearby.length > 1) {
+//       // Create cluster
+//       const centerLat = nearby.reduce((sum, m) => sum + m.lat, 0) / nearby.length
+//       const centerLng = nearby.reduce((sum, m) => sum + m.lng, 0) / nearby.length
 
-      clustered.push({
-        id: `cluster-${marker.id}`,
-        lat: centerLat,
-        lng: centerLng,
-        count: nearby.length,
-      })
+//       clustered.push({
+//         id: `cluster-${marker.id}`,
+//         lat: centerLat,
+//         lng: centerLng,
+//         count: nearby.length,
+//       })
 
-      nearby.forEach((m) => processed.add(m.id))
-    } else {
-      clustered.push(marker)
-      processed.add(marker.id)
-    }
-  })
+//       nearby.forEach((m) => processed.add(m.id))
+//     } else {
+//       clustered.push(marker)
+//       processed.add(marker.id)
+//     }
+//   })
 
-  return clustered
-}
+//   return clustered
+// }

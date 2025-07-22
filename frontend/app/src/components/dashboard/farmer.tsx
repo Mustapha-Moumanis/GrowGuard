@@ -6,23 +6,12 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+
 import { Input } from "@/components/ui/input"
-import { LogOut, Search, ChevronDown } from "lucide-react"
+import { Search } from "lucide-react"
 import { EnhancedMap } from "../enhanced-map"
 import { LocationSetupModal } from "@/components/location/location-setup-modal"
-import { NotificationBell } from "../notifications/notification-bell"
-// import { ProfileModal } from "./profile-modal"
-import { ThemeToggle } from "../theme-toggle"
+import { ProfileModal } from "./profile-modal"
 import type { Alert } from "@/types"
 // import { userApi } from "@/lib/api"
 // Import the new components
@@ -31,24 +20,19 @@ import type { Alert } from "@/types"
 // import { RecentActivity } from "../recent-activity"
 import { alertsApi } from "@/lib/api"
 import { alertCategories, severityLevels } from "../alerts/alert-creation-form"
+// import { AlertMap } from "../alerts/alert-map"
+import { Header } from "./Header"
 
 export function FarmerDashboard() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCrop, setSelectedCrop] = useState("all")
   // const [savedAlerts, setSavedAlerts] = useState<string[]>([])
-  // const [showProfile, setShowProfile] = useState(false)
+  const [showProfile, setShowProfile] = useState(false)
   const [selectedSeverity, setSelectedSeverity] = useState("all")
   const [activeTab, setActiveTab] = useState("feed")
 
-  const { user, logout, shouldShowLocationSetup, setShouldShowLocationSetup, updateUser } = useAuth()
+  const { user, shouldShowLocationSetup, setShouldShowLocationSetup, updateUser } = useAuth()
 
-  const handleLogout = async () => {
-    try {
-      await logout()
-    } catch (error) {
-      console.error("Logout failed:", error)
-    }
-  }
 
   const handleLocationUpdated = (updatedUser: any) => {
     updateUser(updatedUser)
@@ -105,128 +89,8 @@ export function FarmerDashboard() {
   return (
     <div className="min-h-screen bg-background transition-colors">
       {/* Header */}
-      <header className="bg-card border-b px-4 py-3 shadow-sm">
-        <div className="flex items-center justify-between">
-
-          <div className="flex flex-row items-center gap-3">
-            <img src="/agri-icon.png" alt="Logo" className="w-10 h-10 rounded-full" />
-            <h1 className="font-semibold text-foreground">CropAlert</h1>
-          </div>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <NotificationBell />
-            {/*<Button variant="ghost" size="icon" onClick={() => setShowProfile(true)}>
-              <Settings className="w-4 h-4" />
-            </Button>*/}
-
-            {/* <DropdownMenu>
-              <Avatar className="h-8 w-8 rounded-full">
-                <AvatarImage src={user?.avatar} alt={user?.username} />
-                <AvatarFallback className="rounded-full">
-                  {user?.username?.charAt(0)?.toUpperCase() || 'U'}
-                </AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user?.username}</span>
-                <span className="truncate text-xs text-muted-foreground">{user?.email}</span>
-              </div>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-2 h-auto p-2">
-                  <ChevronDown />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Button variant="ghost" size="icon" onClick={handleLogout}>
-                    <LogOut className="w-4 h-4" />
-                    Logout
-                  </Button>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu> */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  className="flex items-center gap-3 h-10 pl-2 pr-0 py-2 hover:bg-accent focus:bg-accent transition-colors rounded-lg"
-                >
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage 
-                      src={user?.avatar} 
-                      alt={user?.username || 'User avatar'} 
-                      className="object-cover"
-                    />
-                    <AvatarFallback className="bg-primary text-primary-foreground font-medium">
-                      {user?.username?.charAt(0)?.toUpperCase() || 'U'}
-                    </AvatarFallback>
-                  </Avatar>
-                  
-                  <div className="hidden sm:flex flex-col items-start min-w-0">
-                    <span className="text-sm font-medium truncate max-w-[120px]">
-                      {user?.username || 'User'}
-                    </span>
-                    <span className="text-xs text-muted-foreground truncate max-w-[120px]">
-                      {user?.role || 'No role'}
-                    </span>
-                  </div>
-
-                  <ChevronDown className="h-4 w-4 text-muted-foreground cursor-pointer rounded-lg hidden sm:block" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel className="font-normal sm:hidden">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{user?.username}</p>
-                    <p className="text-xs leading-none text-muted-foreground">
-                      {user?.role || 'No role assigned'}
-                    </p>
-                  </div>
-                </DropdownMenuLabel>
-                
-                <DropdownMenuSeparator className="sm:hidden" />
-                
-                <DropdownMenuGroup>
-                  <DropdownMenuItem className="cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
-                  </DropdownMenuItem>
-                  
-                  <DropdownMenuItem className="cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Settings</span>
-                  </DropdownMenuItem>
-                  
-                  <DropdownMenuItem className="cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Billing</span>
-                  </DropdownMenuItem>
-                  
-                  <DropdownMenuItem className="cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Team</span>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                
-                <DropdownMenuSeparator />
-                
-                <DropdownMenuItem 
-                  className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
-                  onClick={handleLogout}
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
-      </header>
-
+      <Header setShowProfile={setShowProfile} />
+      {/* <AlertMap /> */}
       {/* Search and Filters */}
       <div className="p-4 bg-card border-b">
         <div className="flex flex-col sm:flex-row gap-2 mb-3">
@@ -364,8 +228,7 @@ export function FarmerDashboard() {
         />
       )}
       {/* Profile Modal */}
-      {/*showProfile && <ProfileModal user={user} onClose={() => setShowProfile(false)} onUpdate={userApi} />*/}
-
+      {(showProfile && user) && <ProfileModal onClose={() => setShowProfile(false)} />}
     </div>
   )
 }

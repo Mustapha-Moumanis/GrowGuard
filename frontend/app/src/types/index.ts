@@ -7,6 +7,7 @@ export interface User {
   country?: string
   region?: string
   city?: string
+  farmLocation?:string
   latitude?: number
   longitude?: number
 
@@ -41,6 +42,7 @@ export interface Alert {
   latitude: number;
   longitude: number;
   severity: "Low" | "Medium" | "High" | "Critical";
+  location?: string;
   date: string;
   author: number;
   category: string;
