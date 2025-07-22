@@ -4,7 +4,6 @@ import {
   Navigation,
   ZoomIn,
   ZoomOut,
-  Layers,
   MapPin,
   Home,
   Wifi,
@@ -206,9 +205,7 @@ export function EnhancedMap({
       const map = L.map(mapRef.current).setView([userLocation.lat, userLocation.lng], 10);
 
       // Add user location marker if available
-      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-      }).addTo(map);
+      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
 
       if (user?.latitude && user?.longitude) {
         const userIcon = window.L.divIcon({
@@ -305,17 +302,17 @@ export function EnhancedMap({
     }
   }, [currentAlerts, isMapLoaded, onAlertClick]);
 
-  const handleZoomIn = () => {
-    if (mapInstanceRef.current) {
-      mapInstanceRef.current.zoomIn();
-    }
-  };
+  // const handleZoomIn = () => {
+  //   if (mapInstanceRef.current) {
+  //     mapInstanceRef.current.zoomIn();
+  //   }
+  // };
 
-  const handleZoomOut = () => {
-    if (mapInstanceRef.current) {
-      mapInstanceRef.current.zoomOut();
-    }
-  };
+  // const handleZoomOut = () => {
+  //   if (mapInstanceRef.current) {
+  //     mapInstanceRef.current.zoomOut();
+  //   }
+  // };
 
   const handleRecenter = () => {
     if (mapInstanceRef.current && userLocation) {
@@ -323,16 +320,16 @@ export function EnhancedMap({
     }
   };
 
-  const handleRefreshAlerts = () => {
-    if (wsRef.current?.readyState === WebSocket.OPEN && userLocation) {
-      wsRef.current.send(JSON.stringify({
-        type: 'get_alerts',
-        lat: userLocation.lat,
-        lng: userLocation.lng,
-        radius: 50
-      }));
-    }
-  };
+  // const handleRefreshAlerts = () => {
+  //   if (wsRef.current?.readyState === WebSocket.OPEN && userLocation) {
+  //     wsRef.current.send(JSON.stringify({
+  //       type: 'get_alerts',
+  //       lat: userLocation.lat,
+  //       lng: userLocation.lng,
+  //       radius: 50
+  //     }));
+  //   }
+  // };
 
   return (
     <div className="space-y-4">
@@ -358,44 +355,41 @@ export function EnhancedMap({
 
       {/* Map Container */}
       <div className="relative h-96 rounded-xl overflow-hidden border shadow-lg">
-        <div ref={mapRef} className="w-full h-full"></div>
-
-        {/* Map Controls */}
-        <div className="absolute top-4 right-4 flex flex-col gap-2">
+        <div ref={mapRef} className="w-full h-full z-1"></div>
+        <div className="absolute top-2 right-2 z-10 flex gap-2">
           <Button
-            size="icon"
-            variant="secondary"
-            className="w-10 h-10 shadow-lg"
-            onClick={handleZoomIn}
-          >
-            <ZoomIn className="w-4 h-4" />
-          </Button>
-          <Button
-            size="icon"
-            variant="secondary"
-            className="w-10 h-10 shadow-lg"
-            onClick={handleZoomOut}
-          >
-            <ZoomOut className="w-4 h-4" />
-          </Button>
-          <Button
-            size="icon"
-            variant="secondary"
-            className="w-10 h-10 shadow-lg"
+            variant="outline"
+            size="icon" 
             onClick={handleRecenter}
+            className="!bg-background hover:bg-gray-50"
           >
             <Navigation className="w-4 h-4" />
           </Button>
           <Button
+            variant="outline"
             size="icon"
-            variant="secondary"
-            className="w-10 h-10 shadow-lg"
-            onClick={handleRefreshAlerts}
+            onClick={() => {
+              if (mapInstanceRef.current) {
+                mapInstanceRef.current.zoomIn();
+              }
+            }}
+            className="!bg-background hover:bg-gray-50"
           >
-            <Layers className="w-4 h-4" />
+            <ZoomIn className="w-4 h-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => {
+              if (mapInstanceRef.current) {
+                mapInstanceRef.current.zoomOut();
+              }
+            }}
+            className="!bg-background hover:bg-gray-50"
+          >
+            <ZoomOut className="w-4 h-4" />
           </Button>
         </div>
-
         {/* Loading overlay */}
         {!isMapLoaded && (
           <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">

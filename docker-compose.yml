@@ -47,19 +47,19 @@ services:
             # - ./frontend/app/node_modules:/app/node_modules
             # - media:/app/static
     
-    # backend:
-    #     container_name: backend
-    #     build: ./backend/
-    #     image: backend
-    #     restart: on-failure
-    #     env_file:
-    #         - .env
-    #     ports:
-    #         - "8000:8000"
-    #     networks:
-    #         - agricultural-network
-    #     volumes:
-    #         - ./backend/src/:/code/
+    backend:
+        container_name: backend
+        build: ./backend/
+        image: backend
+        restart: on-failure
+        env_file:
+            - .env
+        ports:
+            - "8000:8000"
+        networks:
+            - agricultural-network
+        volumes:
+            - ./backend/src/:/code/
             # - media:/code/static
 
 networks:

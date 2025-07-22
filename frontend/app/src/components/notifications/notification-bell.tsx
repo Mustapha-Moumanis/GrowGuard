@@ -148,7 +148,7 @@ export function NotificationBell() {
   }
 
   const markAsRead = (notificationId: string) => {
-    setNotifications(prev =>
+    setNotifications((prev: any[]) =>
       prev.map(notification =>
         notification.id === notificationId
           ? { ...notification, isRead: true, isNew: false }
@@ -158,7 +158,7 @@ export function NotificationBell() {
   }
 
   const markAllAsRead = () => {
-    setNotifications(prev =>
+    setNotifications((prev: any[]) =>
       prev.map(notification => ({
         ...notification,
         isRead: true,

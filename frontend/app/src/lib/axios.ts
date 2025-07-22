@@ -92,11 +92,11 @@
 import axios from "axios"
 import { toast } from "sonner"
 
-console.log(import.meta.env.VITE_API_URL, import.meta.env.BASE_URL, process.env.VITE_API_URL)
+console.log(import.meta.env.VITE_API_URL, import.meta.env.BASE_URL)
 
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || process.env.VITE_API_URL || "http://localhost:8000",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

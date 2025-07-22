@@ -3,13 +3,9 @@ import api from "./axios"
 import type { User } from "@/types"
 
 export interface LocationData {
-  city: string
-  region: string
-  country: string
-  coordinates?: {
-    lat: number
-    lng: number
-  }
+  farmLocation: string
+  latitude: number
+  longitude: number
 }
 
 export interface LocationResponse {
@@ -69,10 +65,13 @@ class LocationService {
 
       if (data) {
         return {
-          city: data.city || data.town || data.village || "",
-          region: data.state || data.province || data.region || "",
-          country: data.country || "",
-          coordinates: { lat, lng },
+          farmLocation: `
+            ${data.city || data.town || data.village || ""}
+            ${data.state || data.province || data.region || ""}
+            ${data.country || ""}`
+            .trim() || "Unknown location",
+          latitude: lat,
+          longitude: lng,
         }
       }
 
