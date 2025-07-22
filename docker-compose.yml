@@ -1,35 +1,4 @@
 services:
-    # db:
-    #     container_name: postgres
-    #     hostname: postgres
-    #     image: postgres
-    #     restart: on-failure
-    #     env_file:
-    #         - .env
-    #     networks:
-    #         - agricultural-network
-    #     volumes:
-    #         - db_data:/var/lib/postgresql/data
-    
-    # nginx:
-    #     depends_on:
-    #         - web
-    #     container_name : nginx
-    #     build : ./frontend/
-    #     image : nginx
-    #     ports:
-    #         - 8443:443
-    #     restart: on-failure
-    #     env_file: .env
-    #     networks:
-    #         - agricultural-network
-    #     volumes:
-    #         - ./frontend/src/:/var/www/html/
-    #         - media:/var/www/html/static
-    #         - ssl:/etc/ssl/
-
-
-
     frontend:
         container_name: frontend
         build: ./frontend
@@ -44,8 +13,6 @@ services:
         volumes:
             - ./frontend/app:/app/
             - /app/node_modules
-            # - ./frontend/app/node_modules:/app/node_modules
-            # - media:/app/static
     
     backend:
         container_name: backend
@@ -60,7 +27,6 @@ services:
             - agricultural-network
         volumes:
             - ./backend/src/:/code/
-            # - media:/code/static
 
 networks:
     agricultural-network:
@@ -68,5 +34,3 @@ networks:
 
 volumes:
     media:
-    # ssl:
-    # db_data:
