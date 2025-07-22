@@ -43,6 +43,7 @@ CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -62,8 +63,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth.registration',
 
-    # 'rest_framework_simplejwt',
-
     'users',
     'alerts',
 ]
@@ -75,8 +74,6 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
 }
-
-
 
 SITE_ID = 1
 
@@ -119,10 +116,6 @@ WSGI_APPLICATION = "app.wsgi.application"
 
 DATABASES = {
     "default": env.db()
-    # "default": {
-    #     "ENGINE": "django.db.backends.sqlite3",
-    #     "NAME": BASE_DIR / "db.sqlite3",
-    # }
 }
 
 
@@ -200,22 +193,19 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-# EMAIL_HOST = config('EMAIL_HOST')
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = config('EMAIL_PORT', cast=int)
-# EMAIL_HOST_USER = config('EMAIL_USER')
-# EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
-# django.core.mail.backends.console.emailbackend
-# EMAIL_CONFIG = env.email(
-#     'EMAIL_URL',
-#     default='smtp://user:password@localhost:25'
-# )
-# vars().update(EMAIL_CONFIG)
+if env("DEBUG"):
+    # Use console email backend in development
+    # This will print emails to the console instead of sending them
+    # Useful for testing purposes
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    # Use SMTP email backend in production
+    # Uncomment and configure the following lines to use SMTP
+    EMAIL_CONFIG = env.email(
+        'EMAIL_URL',
+        default='smtp://user:password@localhost:587'
+    )
+    vars().update(EMAIL_CONFIG)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

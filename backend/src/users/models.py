@@ -21,7 +21,7 @@ class User(AbstractUser):
     
     avatar = models.ImageField(upload_to=GenerateProfileImagePath, max_length=200, blank=True, null=True)
     reset_password_pin = models.CharField(max_length=256, null=True, blank=True)
-    role = models.CharField(max_length=20, choices=Roles.choices, default=Roles.Farmer)
+    role = models.CharField(max_length=20, choices=Roles.choices, null=True, blank=True)
 
     # Location
 
@@ -33,9 +33,9 @@ class User(AbstractUser):
 
     def assign_default_avatar(self):
         if self.role == self.Roles.Farmer:
-            return f"default/farmer.png"
+            return f"static/default/farmer.png"
         elif self.role == self.Roles.Agronomist:
-            return f"default/agronomist.png"
+            return f"static/default/agronomist.png"
         return None
     
     def save(self, *args, **kwargs):

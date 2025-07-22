@@ -24,7 +24,9 @@ export const authApi = {
     } catch (error: any) {
       throw new ApiError(
         error.response?.status || 500,
-        error.response?.data?.detail || error.response?.data?.non_field_errors?.[0] || "Login failed",
+        error.response?.message ||
+        error.response?.data?.detail ||
+        error.response?.data?.non_field_errors?.[0] || "Login failed",
         error.response,
       )
     }
@@ -296,18 +298,23 @@ export const alertsApi = {
 }
 
 export const userApi = {
-  updateProfile: async (userData: Partial<User>) => {
+  updateProfile: async (userData: Partial<User> | FormData  ) => {
     try {
-      const response = await api.put("/auth/user", userData)
+      const response = await api.put("/auth/user", userData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      })
       return response.data
     } catch (error: any) {
       throw new ApiError(error.response?.status || 500, error.response?.data?.message || "Failed to update profile")
     }
   },
   updateLocation: async (locationData: {
-    country: string
-    region: string
-    city: string
+    // country: string
+    // region: string
+    // city: string
+    location?: string
     latitude?: number
     longitude?: number
   }) => {

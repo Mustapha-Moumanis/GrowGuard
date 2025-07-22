@@ -14,6 +14,8 @@
     "noUnusedParameters": false,
     "noImplicitAny": false,
     "skipLibCheck": true,
+    "jsx": "react-jsx", // (for React 17+)
+    "types": ["react", "react-dom"],
     "suppressImplicitAnyIndexErrors": true,
   },
 }
