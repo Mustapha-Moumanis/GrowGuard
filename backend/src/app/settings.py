@@ -65,6 +65,7 @@ INSTALLED_APPS = [
 
     'users',
     'alerts',
+    'notifications',
 ]
 
 ASGI_APPLICATION = "app.asgi.application"
@@ -159,8 +160,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,"static")]
 REST_AUTH = {
     'USE_JWT': True,
     'SESSION_LOGIN': False,
-    'JWT_AUTH_COOKIE': 'cropalert-access-token',
-    'JWT_AUTH_REFRESH_COOKIE': 'cropalert-refresh-token',
+    'JWT_AUTH_COOKIE': 'GrowGuard-access-token',
+    'JWT_AUTH_REFRESH_COOKIE': 'GrowGuard-refresh-token',
 
     # To tell the browser not to send this cookie when performing a cross-origin request.
     # 'JWT_AUTH_SAMESITE': 'None',

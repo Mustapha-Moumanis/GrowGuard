@@ -100,7 +100,7 @@ export function NotificationSystem({ user, onPreferencesUpdate }: NotificationSy
       {
         id: "4",
         title: "System Update",
-        message: "CropAlert has been updated with new features",
+        message: "GrowGuard has been updated with new features",
         time: "1 day ago",
         isNew: false,
         type: "system",
@@ -138,8 +138,8 @@ export function NotificationSystem({ user, onPreferencesUpdate }: NotificationSy
 
   const sendTestNotification = () => {
     if (preferences.notifications.browser && "Notification" in window && Notification.permission === "granted") {
-      new Notification("CropAlert Test", {
-        body: "This is a test notification from CropAlert",
+      new Notification("GrowGuard Test", {
+        body: "This is a test notification from GrowGuard",
         icon: "/favicon.ico",
         badge: "/favicon.ico",
       })

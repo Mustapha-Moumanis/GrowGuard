@@ -37,7 +37,7 @@ class MyUserDetailsSerializer(UserDetailsSerializer):
 	class Meta:
 		model = User
 		fields = ['username', 'email', 'first_name', 'last_name', 'avatar', 'role', 'country', 'region', 'city', 'latitude', 'longitude']
-		read_only_fields = ('email', 'role', 'country', 'region', 'city', 'latitude', 'longitude')
+		read_only_fields = ('email', 'role')
 
 	def validate_username(self, username):
 		pattern = r'^[a-zA-Z][a-zA-Z_-]{0,19}$'
@@ -45,17 +45,17 @@ class MyUserDetailsSerializer(UserDetailsSerializer):
 			raise serializers.ValidationError('invalid username')
 		return username
 
-	def validate_first_name(self, first_name):
-		pattern = r'^[a-zA-Z][a-zA-Z_-]{0,19}$'
-		if not re.match(pattern, first_name):
-			raise serializers.ValidationError('invalid first name')
-		return first_name
+	# def validate_first_name(self, first_name):
+	# 	pattern = r'^[a-zA-Z][a-zA-Z_-]{0,19}$'
+	# 	if not re.match(pattern, first_name):
+	# 		raise serializers.ValidationError('invalid first name')
+	# 	return first_name
 
-	def validate_last_name(self, last_name):
-		pattern = r'^[a-zA-Z][a-zA-Z_-]{0,19}$'
-		if not re.match(pattern, last_name):
-			raise serializers.ValidationError('invalid last name')
-		return last_name
+	# def validate_last_name(self, last_name):
+	# 	pattern = r'^[a-zA-Z][a-zA-Z_-]{0,19}$'
+	# 	if not re.match(pattern, last_name):
+	# 		raise serializers.ValidationError('invalid last name')
+	# 	return last_name
 
 	# def to_representation(self, instance):
 	# 	representation = super().to_representation(instance)

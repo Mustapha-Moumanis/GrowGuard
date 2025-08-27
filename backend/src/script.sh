@@ -1,28 +1,40 @@
 #!/bin/bash
 
-# until PGPASSWORD="$POSTGRES_PASSWORD" psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -U "$POSTGRES_USER" -d "$POSTGRES_NAME" -c '\q' 2>/dev/null; do
-#     echo "Wait for PostgreSQL to be ready!!"
-#     sleep 3
-# done
+set -e
 
 python ./manage.py makemigrations
-
 python ./manage.py migrate
 
+# Check if admin user exists
 EXISTS=$(python ./manage.py shell -c "
-from users.models import User;
-print(User.objects.filter(username='$DJANGO_SUPERUSER_USERNAME', is_superuser=True).exists())
-")
+from django.contrib.auth import get_user_model
+User = get_user_model()
+print(User.objects.filter(username='${DJANGO_SUPERUSER_USERNAME}', is_superuser=True).exists())
+" 2>/dev/null)
 
 if [ "$EXISTS" = "False" ]; then
-    python ./manage.py createsuperuser --noinput 2>/dev/null
-
-	python ./manage.py shell -c "
-from users.models import User
-user = User.objects.get(username='$DJANGO_SUPERUSER_USERNAME')
-user.email = '$DJANGO_SUPERUSER_EMAIL'
-user.save()
-"
+    echo "Creating superuser..."
+    python ./manage.py createsuperuser --noinput
+    
+    # Update email if provided
+    if [ ! -z "$DJANGO_SUPERUSER_EMAIL" ]; then
+        python ./manage.py shell -c "
+from django.contrib.auth import get_user_model
+User = get_user_model()
+try:
+    user = User.objects.get(username='${DJANGO_SUPERUSER_USERNAME}')
+    user.email = '${DJANGO_SUPERUSER_EMAIL}'
+    user.save()
+    print('Email updated successfully')
+except User.DoesNotExist:
+    print('User not found')
+except Exception as e:
+    print(f'Error updating email: {e}')
+" 2>/dev/null
+    fi
+else
+    echo "Superuser already exists"
 fi
 
+# Start the server
 exec python manage.py runserver 0.0.0.0:8000

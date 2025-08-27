@@ -32,7 +32,7 @@ export function VerificationCodeInput({
       >
         <InputOTPGroup>
           {Array.from({ length }, (_, index) => (
-            <InputOTPSlot key={index} index={index} />
+            <InputOTPSlot key={index} index={index}/>
           ))}
         </InputOTPGroup>
       </InputOTP>

@@ -83,24 +83,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // Store tokens (dj-rest-auth typically returns access and refresh tokens)
       if (response.access_token || response.access) {
-        localStorage.setItem("cropalert-access-token", response.access_token || response.access)
+        localStorage.setItem("GrowGuard-access-token", response.access_token || response.access)
       }
       if (response.refresh_token || response.refresh) {
-        localStorage.setItem("cropalert-refresh-token", response.refresh_token || response.refresh)
+        localStorage.setItem("GrowGuard-refresh-token", response.refresh_token || response.refresh)
       }
 
       // Set user data
       const userData = response.user || response
       setUser(userData)
       setIsAuthenticated(true)
-      localStorage.setItem("cropalert-user", JSON.stringify(userData))
+      localStorage.setItem("GrowGuard-user", JSON.stringify(userData))
 
       // Check if location setup is needed
       if (needsLocationSetup(userData)) {
         setShouldShowLocationSetup(true)
       }
       toast.success("Welcome back!", {
-        description: "You have successfully signed in to CropAlert.",
+        description: "You have successfully signed in to GrowGuard.",
       })
     } catch (error) {
       console.error("Login error:", error)
@@ -135,9 +135,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(null)
       setIsAuthenticated(false)
       setShouldShowLocationSetup(false)
-      localStorage.removeItem("cropalert-access-token")
-      localStorage.removeItem("cropalert-refresh-token")
-      localStorage.removeItem("cropalert-user")
+      localStorage.removeItem("GrowGuard-access-token")
+      localStorage.removeItem("GrowGuard-refresh-token")
+      localStorage.removeItem("GrowGuard-user")
     }
   }
 
@@ -145,7 +145,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (user) {
       const updatedUser = { ...user, ...userData }
       setUser(updatedUser)
-      localStorage.setItem("cropalert-user", JSON.stringify(updatedUser))
+      localStorage.setItem("GrowGuard-user", JSON.stringify(updatedUser))
 
       // Check if location setup is still needed
       if (!needsLocationSetup(updatedUser)) {

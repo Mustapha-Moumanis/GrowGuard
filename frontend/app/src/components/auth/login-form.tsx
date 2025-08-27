@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Sprout, Eye, EyeOff, AlertCircle } from "lucide-react"
+import { Eye, EyeOff, AlertCircle } from "lucide-react"
 import { ThemeToggle } from "../theme-toggle"
 import { useAuth } from "@/hooks/use-auth"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -124,24 +124,21 @@ export function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 flex items-center justify-center p-4 transition-colors">
+    <div className="text-text-primary min-h-screen flex items-center justify-center p-4 transition-colors">
       <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div>
 
-      <Card className="w-full max-w-md shadow-xl">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-4 w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-full flex items-center justify-center shadow-lg">
-            <Sprout className="w-8 h-8 text-white" />
-          </div>
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-            CropAlert
+      <Card className="w-full max-w-md bg-bg-secondary shadow-xl py-6">
+        <CardHeader className="px-8">
+          <CardTitle className="text-3xl font-bold !text-text-primary">
+            Sign In
           </CardTitle>
-          <CardDescription>Connect agronomists and farmers for real-time agricultural insights</CardDescription>
+          <CardDescription className="text-text-secondary font-semibold text-md">Connect agronomists and farmers for real-time agricultural insights</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-8">
           {generalError && (
-            <Alert variant="destructive" className="mb-4">
+            <Alert variant="destructive" className="mb-4 !text-error bg-red-100 border-red-500">
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>{generalError}</AlertDescription>
             </Alert>
@@ -154,11 +151,16 @@ export function LoginForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="font-bold text-sm">Email</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="Enter your email" disabled={isLoading} {...field} />
+                      <Input
+                        type="email"
+                        placeholder="Enter your email"
+                        disabled={isLoading}
+                        {...field}
+                      />
                     </FormControl>
-                    <FormMessage>{getFieldError("email")}</FormMessage>
+                    <FormMessage className="!text-error">{getFieldError("email")}</FormMessage>
                   </FormItem>
                 )}
               />
@@ -168,7 +170,7 @@ export function LoginForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="font-bold text-sm">Password</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
@@ -181,7 +183,7 @@ export function LoginForm() {
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          className="absolute right-0 top-0 h-full px-3 py-2 text-text-primary hover:!bg-transparent cursor-pointer"
                           onClick={() => setShowPassword(!showPassword)}
                           disabled={isLoading}
                         >
@@ -193,14 +195,14 @@ export function LoginForm() {
                         </Button>
                       </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-error">{getFieldError("password")}</FormMessage>
                   </FormItem>
                 )}
               />
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
+                className="w-full text-text-primary hover:text-white font-semibold uppercase bg-accent hover:bg-primary-hover cursor-pointer rounded-sm dark:hover:text-black dark:bg-primary-hover dark:hover:bg-accent"
                 disabled={isLoading}
               >
                 {isLoading ? "Signing in..." : "Sign In"}
@@ -208,10 +210,10 @@ export function LoginForm() {
             </form>
           </Form>
 
-          <div className="mt-4 space-y-2 text-center">
+          <div className="text-text-secondary font-semibold mt-2 space-y-2 text-center text-md">
+            Don't have an account?
             <Link to="/register">
-              Don't have an account?
-              <Button variant="link" className="text-green-600 dark:text-green-400 p-1">
+              <Button variant="link" className="p-1 font-bold text-md cursor-pointer text-primary dark:text-accent ">
                 Sign up
               </Button>
             </Link>

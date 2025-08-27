@@ -15,7 +15,7 @@ import { ThemeToggle } from "../theme-toggle"
 import { NotificationBell } from "../notifications/notification-bell"
 import { useAuth } from "@/hooks/use-auth"
 
-export function Header({setShowProfile,}: {setShowProfile: React.Dispatch<React.SetStateAction<boolean>>;}) {
+export function Header({setShowProfile }: {setShowProfile: React.Dispatch<React.SetStateAction<boolean>>;}) {
     const { user, logout } = useAuth()
 
 
@@ -28,12 +28,12 @@ export function Header({setShowProfile,}: {setShowProfile: React.Dispatch<React.
   }
     
     return (
-        <header className="bg-card border-b px-4 py-3 shadow-sm">
+        <header className="w-full text-white bg-primary border-b border-border/25 px-4 py-3 shadow-sm z-50">
             <div className="flex items-center justify-between">
 
                 <div className="flex flex-row items-center gap-3">
                 <img src="/agri-icon.png" alt="Logo" className="w-10 h-10 rounded-full" />
-                <h1 className="font-semibold text-foreground">CropAlert</h1>
+                <h1 className="font-semibold text-foreground">GrowGuard</h1>
                 </div>
                 <div className="flex items-center gap-2">
                 <ThemeToggle />
@@ -42,7 +42,7 @@ export function Header({setShowProfile,}: {setShowProfile: React.Dispatch<React.
                     <DropdownMenuTrigger asChild>
                     <Button 
                         variant="ghost" 
-                        className="flex items-center gap-3 h-10 pl-2 pr-0 py-2 hover:bg-accent focus:bg-accent transition-colors rounded-lg"
+                        className="flex items-center gap-3 h-10 pl-2 pr-0 py-2 hover:!bg-transparent transition-colors rounded-lg"
                     >
                         <Avatar className="h-8 w-8">
                         <AvatarImage 
@@ -67,10 +67,10 @@ export function Header({setShowProfile,}: {setShowProfile: React.Dispatch<React.
                         <ChevronDown className="h-4 w-4 text-muted-foreground cursor-pointer rounded-lg hidden sm:block" />
                     </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuContent align="end" className="w-56 bg-bg-primary text-text-primary border border-border/25 rounded-lg">
                     <DropdownMenuLabel className="font-normal sm:hidden">
                         <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{user?.username}</p>
+                        <p className="text-base font-medium leading-none">{user?.username}</p>
                         <p className="text-xs leading-none text-muted-foreground">
                             {user?.role || 'No role assigned'}
                         </p>
