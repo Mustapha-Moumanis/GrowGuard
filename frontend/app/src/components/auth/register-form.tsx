@@ -108,7 +108,7 @@ export function RegisterForm() {
         // Handle field-specific errors
         if (typeof errorData === 'object' && !errorData.detail && !errorData.non_field_errors) {
           setApiErrors(errorData)
-          
+
           // Set form errors for each field
           Object.keys(errorData).forEach((field) => {
             if (form.getValues(field as any) !== undefined) {
@@ -118,7 +118,7 @@ export function RegisterForm() {
               })
             }
           })
-        } 
+        }
         // Handle non-field errors
         else if (errorData.non_field_errors) {
           setGeneralError(errorData.non_field_errors.join(", "))
@@ -146,22 +146,19 @@ export function RegisterForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 flex items-center justify-center p-4 transition-colors">
+    <div className="text-text-primary min-h-screen flex items-center justify-center p-4 transition-colors">
       <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div>
 
-      <Card className="w-full max-w-md shadow-xl">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-4 w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-full flex items-center justify-center shadow-lg">
-            <Sprout className="w-8 h-8 text-white" />
-          </div>
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-            Join CropAlert
+      <Card className="w-full max-w-md bg-bg-secondary shadow-xl py-6">
+        <CardHeader className="px-8">
+          <CardTitle className="text-3xl font-bold !text-text-primary">
+            Sign Up
           </CardTitle>
-          <CardDescription>Create your account to start receiving agricultural alerts</CardDescription>
+          <CardDescription className="text-text-secondary font-semibold text-md">Create your account to start sending or receiving agricultural alerts</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-8">
           {generalError && (
             <Alert variant="destructive" className="mb-4">
               <AlertCircle className="h-4 w-4" />
@@ -170,21 +167,22 @@ export function RegisterForm() {
           )}
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
               <FormField
                 control={form.control}
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel className="font-bold text-sm">Name</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="Enter your username" 
-                        disabled={isLoading} 
-                        {...field} 
+                      <Input
+                        type="text"
+                        placeholder="Enter your name"
+                        disabled={isLoading}
+                        {...field}
                       />
                     </FormControl>
-                    <FormMessage>{getFieldError("username")}</FormMessage>
+                    <FormMessage className="text-error">{getFieldError("username")}</FormMessage>
                   </FormItem>
                 )}
               />
@@ -194,16 +192,16 @@ export function RegisterForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="font-bold text-sm">Email</FormLabel>
                     <FormControl>
-                      <Input 
-                        type="email" 
-                        placeholder="Enter your email" 
-                        disabled={isLoading} 
-                        {...field} 
+                      <Input
+                        type="email"
+                        placeholder="Enter your email"
+                        disabled={isLoading}
+                        {...field}
                       />
                     </FormControl>
-                    <FormMessage>{getFieldError("email")}</FormMessage>
+                    <FormMessage className="text-error">{getFieldError("email")}</FormMessage>
                   </FormItem>
                 )}
               />
@@ -213,7 +211,7 @@ export function RegisterForm() {
                 name="role"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>I am a...</FormLabel>
+                    <FormLabel className="font-bold text-sm">I am a...</FormLabel>
                     <FormControl>
                       <RadioGroup
                         value={field.value}
@@ -225,13 +223,14 @@ export function RegisterForm() {
                           <RadioGroupItem value="Farmer" id="farmer" className="sr-only peer" />
                           <Label
                             htmlFor="farmer"
-                            className="cursor-pointer px-6 py-3 border rounded flex items-center gap-2 font-medium transition-colors
-                                peer-data-[state=checked]:bg-green-50
-                                peer-data-[state=checked]:border-green-600
-                                peer-data-[state=checked]:text-green-600
-                                peer-data-[state=checked]:ring-1 text-muted-foreground"
+                            className="cursor-pointer uppercase px-6 py-[10px] text-primary dark:text-accent border-2 border-primary dark:border-accent rounded flex justify-center items-center gap-2 font-semibold transition-colors
+                                peer-data-[state=checked]:bg-primary
+                                peer-data-[state=checked]:!text-bg-primary
+                                peer-data-[state=checked]:ring-1 text-muted-foreground
+                                dark:peer-data-[state=checked]:bg-accent
+                                dark:peer-data-[state=checked]:border-accent"
                           >
-                            <Users className="w-4 h-4" />
+                            <Sprout className="w-5 h-5" />
                             Farmer
                           </Label>
                         </div>
@@ -241,19 +240,20 @@ export function RegisterForm() {
                           <RadioGroupItem value="Agronomist" id="agronomist" className="sr-only peer" />
                           <Label
                             htmlFor="agronomist"
-                            className="cursor-pointer px-6 py-3 border rounded flex items-center gap-2 font-medium transition-colors
-                                peer-data-[state=checked]:bg-green-50
-                                peer-data-[state=checked]:border-green-600
-                                peer-data-[state=checked]:text-green-600
-                                peer-data-[state=checked]:ring-1 text-muted-foreground"
+                            className="cursor-pointer uppercase px-6 py-[10px] text-primary dark:text-accent border-2 border-primary dark:border-accent rounded flex justify-center items-center gap-2 font-semibold transition-colors
+                                peer-data-[state=checked]:bg-primary
+                                peer-data-[state=checked]:!text-bg-primary
+                                peer-data-[state=checked]:ring-1 text-muted-foreground
+                                dark:peer-data-[state=checked]:bg-accent
+                                dark:peer-data-[state=checked]:border-accent"
                           >
-                            <Sprout className="w-4 h-4" />
+                            <Users className="w-5 h-5" />
                             Agronomist
                           </Label>
                         </div>
                       </RadioGroup>
                     </FormControl>
-                    <FormMessage>{getFieldError("role")}</FormMessage>
+                    <FormMessage className="text-error">{getFieldError("role")}</FormMessage>
                   </FormItem>
                 )}
               />
@@ -263,7 +263,7 @@ export function RegisterForm() {
                 name="password1"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="font-bold text-sm">Password</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
@@ -288,7 +288,7 @@ export function RegisterForm() {
                         </Button>
                       </div>
                     </FormControl>
-                    <FormMessage>{getFieldError("password1")}</FormMessage>
+                    <FormMessage className="text-error">{getFieldError("password1")}</FormMessage>
                   </FormItem>
                 )}
               />
@@ -298,7 +298,7 @@ export function RegisterForm() {
                 name="password2"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel className="font-bold text-sm">Confirm Password</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
@@ -323,25 +323,25 @@ export function RegisterForm() {
                         </Button>
                       </div>
                     </FormControl>
-                    <FormMessage>{getFieldError("password2")}</FormMessage>
+                    <FormMessage className="text-error">{getFieldError("password2")}</FormMessage>
                   </FormItem>
                 )}
               />
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
+                className="w-full text-text-primary hover:text-white font-semibold uppercase bg-accent hover:bg-primary-hover cursor-pointer rounded-sm dark:hover:text-black dark:bg-primary-hover dark:hover:bg-accent"
                 disabled={isLoading}
               >
-                {isLoading ? "Creating Account..." : "Create Account"}
+                {isLoading ? "Creating Account..." : "Sign Up"}
               </Button>
             </form>
           </Form>
 
-          <div className="mt-4 text-center">
+          <div className="text-text-secondary font-semibold mt-2 space-y-2 text-center text-md">
             <Link to="/login">
               Already have an account?
-              <Button variant="link" className="text-green-600 dark:text-green-400 p-1">
+              <Button variant="link" className="p-1 font-bold text-md cursor-pointer text-primary dark:text-accent ">
                 Sign in
               </Button>
             </Link>

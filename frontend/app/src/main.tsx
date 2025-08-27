@@ -9,7 +9,7 @@ import { ThemeProvider } from "./components/theme-provider.tsx"
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <ThemeProvider defaultTheme="light" storageKey="cropalert-ui-theme">
+      <ThemeProvider defaultTheme="light" storageKey="GrowGuard-ui-theme">
         <App />
       </ThemeProvider>
     </BrowserRouter>

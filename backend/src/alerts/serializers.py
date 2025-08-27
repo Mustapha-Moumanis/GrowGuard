@@ -5,14 +5,14 @@ from .models import Alert
 
 class AlertSerializer(serializers.ModelSerializer):
     distance = serializers.SerializerMethodField()
-    is_within_radius = serializers.SerializerMethodField()  # New field
+    is_within_radius = serializers.SerializerMethodField()
 
     class Meta:
         model = Alert
         fields = [
-            'id', 'title', 'description', 'crop',
+            'id', 'title', 'description', 'crop', 'address',
             'latitude', 'longitude', 'severity', 'date', 'author',
-            'category', 'radius', 'distance', 'is_within_radius'  # Added new field
+            'category', 'radius', 'distance', 'is_within_radius'  
         ]
         read_only_fields = ['author', 'distance', 'is_within_radius']
 

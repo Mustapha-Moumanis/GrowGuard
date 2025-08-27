@@ -24,12 +24,12 @@ type Location = {
 };
 
 interface LocationProps {
-    user?: User;
+    user?: User | null;
     selectedLocation: Location | null;
     setSelectedLocation: React.Dispatch<React.SetStateAction<Location | null>>;
 }
 
-export default function LocationMap({user, selectedLocation, setSelectedLocation} : LocationProps) {
+export default function LocationMap({user = null, selectedLocation, setSelectedLocation} : LocationProps) {
     const [isGettingLocation, setIsGettingLocation] = useState(false);
     const [locationError, setLocationError] = useState<string>("");
     const [isMapReady, setIsMapReady] = useState(false);
@@ -562,7 +562,7 @@ export default function LocationMap({user, selectedLocation, setSelectedLocation
 
     return (
         <div ref={containerRef}>
-            <Button
+            {/* <Button
                 type="button"
                 onClick={getCurrentLocation}
                 disabled={isGettingLocation}
@@ -580,7 +580,7 @@ export default function LocationMap({user, selectedLocation, setSelectedLocation
                         Auto-detect
                     </>
                 )}
-            </Button>
+            </Button> */}
 
             {/* Map container */}
             <div className="relative h-64 rounded-lg overflow-hidden border mt-2">
@@ -594,11 +594,25 @@ export default function LocationMap({user, selectedLocation, setSelectedLocation
                     </div>
                 )}
                 {selectedLocation && isMapReady && (
-                    <div className="absolute bottom-2 left-2 bg-white dark:bg-gray-800 p-2 rounded-lg shadow-md text-xs z-10">
+                    <div className="absolute bottom-2 left-2 bg-white dark:bg-primary p-2 rounded-lg shadow-md text-xs z-10">
                         Selected: {selectedLocation.latitude.toFixed(4)}, {selectedLocation.longitude.toFixed(4)}
                     </div>
                 )}
                 <div className="absolute top-2 right-2 z-10 flex gap-2">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={getCurrentLocation}
+                        disabled={isGettingLocation}
+                        className="!bg-background hover:bg-gray-50"
+                    >
+                        {isGettingLocation ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                            <Crosshair className="w-4 h-4" />
+                        )}
+                    </Button>
                     <Button
                         type="button"
                         variant="outline"
@@ -622,7 +636,7 @@ export default function LocationMap({user, selectedLocation, setSelectedLocation
                 </div>
             </div>
             {locationError && (
-                <Alert variant="destructive" className="mt-2">
+                <Alert variant="destructive" className="mt-2 text-error">
                     <AlertDescription>{locationError}</AlertDescription>
                 </Alert>
             )}

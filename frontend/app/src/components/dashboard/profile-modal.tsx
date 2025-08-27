@@ -6,19 +6,20 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { X, Camera, Mail, User } from "lucide-react"
+import { X, Camera, User } from "lucide-react"
 import { userApi } from "@/lib/api";
 import { useAuth } from "@/hooks/use-auth"
 import LocationMap from "../location-map"
+import { toast } from "sonner"
 
 export function ProfileModal({ onClose }: {onClose: () => void}) {
   const { user, updateUser } = useAuth()
 
   const [formData, setFormData] = useState({
     username: user?.username || "",
-    email: user?.email || "",
-    farmLocation: user?.farmLocation || "",
-  });
+    first_name: user?.first_name || "",
+    last_name: user?.last_name || "",
+  })
 
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState(user?.avatar || "");
@@ -38,12 +39,28 @@ export function ProfileModal({ onClose }: {onClose: () => void}) {
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('username', formData.username);
-      formDataToSend.append('email', formData.email);
+      formDataToSend.append('first_name', formData.first_name);
+      formDataToSend.append('last_name', formData.last_name);
       
-      if (user?.role === "Farmer") {
-        formDataToSend.append('farmLocation', formData.farmLocation);
+      if (selectedLocation) {
+        formDataToSend.append('latitude', selectedLocation.latitude.toString());
+        formDataToSend.append('longitude', selectedLocation.longitude.toString());
+        
+        // Add address information if available
+        if (selectedLocation.address) {
+          formDataToSend.append('farmLocation', selectedLocation.address);
+        }
+        if (selectedLocation.country) {
+          formDataToSend.append('country', selectedLocation.country);
+        }
+        if (selectedLocation.region) {
+          formDataToSend.append('region', selectedLocation.region);
+        }
+        if (selectedLocation.city) {
+          formDataToSend.append('city', selectedLocation.city);
+        }
       }
-      
+
       if (avatarFile) {
         formDataToSend.append('avatar', avatarFile);
       }
@@ -55,11 +72,17 @@ export function ProfileModal({ onClose }: {onClose: () => void}) {
         ...updatedUser,
         avatar: updatedUser.avatar || user?.avatar,
       });
-      
+
+      toast.success("Profile Updated",{
+        description: "Your profile has been successfully updated.",
+      });
+
       onClose();
     } catch (error) {
       console.error("Error updating profile:", error);
-      // Handle error (show toast, etc.)
+      toast.error("Update Failed", {
+        description: "There was an error updating your profile. Please try again.",
+      });
     }
   };
 
@@ -85,7 +108,7 @@ export function ProfileModal({ onClose }: {onClose: () => void}) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <Card className="bg-bg-primary w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -128,38 +151,38 @@ export function ProfileModal({ onClose }: {onClose: () => void}) {
 
             {/* Basic Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
               <div className="space-y-2">
-                <Label htmlFor="username" className="flex items-center gap-2">
+                <Label htmlFor="first_name" className="flex items-center gap-2">
                   <User className="w-4 h-4" />
-                  Full Name
+                  First Name
                 </Label>
                 <Input
-                  id="username"
-                  value={formData.username}
+                  id="first_name"
+                  value={formData.first_name}
                   onChange={handleInputChange}
-                  required
+                  type="text"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  Email
+                <Label htmlFor="last_name" className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  Last Name
                 </Label>
                 <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
+                  id="last_name"
+                  value={formData.last_name}
                   onChange={handleInputChange}
-                  required
+                  type="text"
                 />
               </div>
 
-              {user?.role === "Farmer" && (
-                <div className="space-y-2 col-span-2 ">
-                  <LocationMap user={user} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
-                </div>
-              )}
+
+              <div className="space-y-2 col-span-2 ">
+                <Label htmlFor="Location">{user?.role === "Farmer" && "Farm "}Location Address</Label>
+                <LocationMap user={user} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+              </div>
             </div>
 
             {/* Action Buttons */}

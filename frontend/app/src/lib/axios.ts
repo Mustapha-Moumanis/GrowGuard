@@ -13,7 +13,7 @@
 // // Request interceptor to add auth token
 // api.interceptors.request.use(
 //   (config) => {
-//     const token = localStorage.getItem("cropalert-access-token")
+//     const token = localStorage.getItem("GrowGuard-access-token")
 //     if (token) {
 //       config.headers.Authorization = `Bearer ${token}`
 //     }
@@ -34,7 +34,7 @@
 //       originalRequest._retry = true
 
 //       try {
-//         const refreshToken = localStorage.getItem("cropalert-refresh-token")
+//         const refreshToken = localStorage.getItem("GrowGuard-refresh-token")
 //         if (!refreshToken) {
 //           throw new Error("No refresh token available")
 //         }
@@ -53,16 +53,16 @@
 //         const { access } = refreshResponse.data
 
 //         // Store new access token
-//         localStorage.setItem("cropalert-access-token", access)
+//         localStorage.setItem("GrowGuard-access-token", access)
 
 //         // Retry original request with new token
 //         originalRequest.headers.Authorization = `Bearer ${access}`
 //         return api(originalRequest)
 //       } catch (refreshError: any) {
 //         // Refresh failed, clear tokens and redirect to login
-//         localStorage.removeItem("cropalert-access-token")
-//         localStorage.removeItem("cropalert-refresh-token")
-//         localStorage.removeItem("cropalert-user")
+//         localStorage.removeItem("GrowGuard-access-token")
+//         localStorage.removeItem("GrowGuard-refresh-token")
+//         localStorage.removeItem("GrowGuard-user")
 
 //         // Handle different refresh error scenarios
 //         if (refreshError.response?.status === 401) {
@@ -106,7 +106,7 @@ const api = axios.create({
 // Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("cropalert-access-token")
+    const token = localStorage.getItem("GrowGuard-access-token")
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
@@ -127,7 +127,7 @@ api.interceptors.response.use(
       originalRequest._retry = true
 
       try {
-        const refreshToken = localStorage.getItem("cropalert-refresh-token")
+        const refreshToken = localStorage.getItem("GrowGuard-refresh-token")
         if (!refreshToken) {
           throw new Error("No refresh token available")
         }
@@ -146,16 +146,16 @@ api.interceptors.response.use(
         const { access } = refreshResponse.data
 
         // Store new access token
-        localStorage.setItem("cropalert-access-token", access)
+        localStorage.setItem("GrowGuard-access-token", access)
 
         // Retry original request with new token
         originalRequest.headers.Authorization = `Bearer ${access}`
         return api(originalRequest)
       } catch (refreshError: any) {
         // Refresh failed, clear tokens and redirect to login
-        localStorage.removeItem("cropalert-access-token")
-        localStorage.removeItem("cropalert-refresh-token")
-        localStorage.removeItem("cropalert-user")
+        localStorage.removeItem("GrowGuard-access-token")
+        localStorage.removeItem("GrowGuard-refresh-token")
+        localStorage.removeItem("GrowGuard-user")
 
         // Handle different refresh error scenarios
         if (refreshError.response?.status === 401) {

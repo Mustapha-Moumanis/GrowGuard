@@ -10,6 +10,7 @@ import { FarmerDashboard } from "./components/dashboard/farmer"
 // import { locationService } from "./lib/location"
 import { AuthProvider, useAuth } from "./hooks/use-auth"
 import { ProtectedRoute } from "./components/auth/protected-route"
+import { Toaster } from "sonner"
 
 function AppRoutes() {
   const { user, isLoading, isAuthenticated } = useAuth()
@@ -45,6 +46,7 @@ function App() {
   return (
     <AuthProvider>
       <AppRoutes />
+       <Toaster />
     </AuthProvider>
   )
 }

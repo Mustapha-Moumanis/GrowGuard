@@ -1,20 +1,21 @@
 export interface User {
   id: string
   username: string
+  first_name: string
+  last_name: string
   email: string
   role: "Agronomist" | "Farmer"
   avatar?: string
   country?: string
   region?: string
   city?: string
-  farmLocation?:string
+  address?:string
   latitude?: number
   longitude?: number
 
   notificationPreferences?: {
     browserPush: boolean
     emailDigest: "immediate" | "daily" | "weekly" | "none"
-    smsAlerts: boolean
     geographicRadius: number // in km
     severityThreshold: "low" | "medium" | "high" | "critical"
     cropSubscriptions: string[]
@@ -42,7 +43,7 @@ export interface Alert {
   latitude: number;
   longitude: number;
   severity: "Low" | "Medium" | "High" | "Critical";
-  location?: string;
+  address?: string;
   date: string;
   author: number;
   category: string;

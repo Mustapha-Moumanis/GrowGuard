@@ -123,8 +123,8 @@ export const authApi = {
 
   checkAuthStatus: async (): Promise<boolean> => {
     try {
-      const accessToken = localStorage.getItem("cropalert-access-token")
-      const refreshToken = localStorage.getItem("cropalert-refresh-token")
+      const accessToken = localStorage.getItem("GrowGuard-access-token")
+      const refreshToken = localStorage.getItem("GrowGuard-refresh-token")
 
       if (!accessToken && !refreshToken) {
         return false
@@ -135,16 +135,16 @@ export const authApi = {
       return true
     } catch (error) {
       // If getCurrentUser fails, try to refresh token
-      const refreshToken = localStorage.getItem("cropalert-refresh-token")
+      const refreshToken = localStorage.getItem("GrowGuard-refresh-token")
       if (refreshToken) {
         try {
           await authApi.refreshToken(refreshToken)
           return true
         } catch (refreshError) {
           // Refresh failed, user is not authenticated
-          localStorage.removeItem("cropalert-access-token")
-          localStorage.removeItem("cropalert-refresh-token")
-          localStorage.removeItem("cropalert-user")
+          localStorage.removeItem("GrowGuard-access-token")
+          localStorage.removeItem("GrowGuard-refresh-token")
+          localStorage.removeItem("GrowGuard-user")
           return false
         }
       }
@@ -181,7 +181,6 @@ export const alertsApi = {
 
   createAlert: async (alertData: any): Promise<Alert> => {
     try {
-      console.log(alertData)
       const response = await api.post("/alerts/", alertData)
       return response.data
     } catch (error: any) {
@@ -300,6 +299,7 @@ export const alertsApi = {
 export const userApi = {
   updateProfile: async (userData: Partial<User> | FormData  ) => {
     try {
+      console.log("Updating profile with data:", userData)
       const response = await api.put("/auth/user", userData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -307,14 +307,15 @@ export const userApi = {
       })
       return response.data
     } catch (error: any) {
+      console.error("Error updating profile:", error)
       throw new ApiError(error.response?.status || 500, error.response?.data?.message || "Failed to update profile")
     }
   },
   updateLocation: async (locationData: {
-    // country: string
-    // region: string
-    // city: string
-    location?: string
+    country: string
+    region: string
+    city: string
+    // location?: string
     latitude?: number
     longitude?: number
   }) => {

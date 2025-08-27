@@ -5,7 +5,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
-import { Mail, CheckCircle, RefreshCw, ArrowLeft, AlertCircle } from "lucide-react"
+import { CheckCircle, RefreshCw, AlertCircle } from "lucide-react"
+import emailIcon from '../../assets/emailVerification.png'
+import { cn } from "@/lib/utils"
 import { ThemeToggle } from "../theme-toggle"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { 
@@ -179,24 +181,24 @@ export function EmailVerification() {
 
   if (isVerified) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 flex items-center justify-center p-4 transition-colors">
+      <div className="bg-bg-primary min-h-screen flex items-center justify-center p-4 transition-colors">
         <div className="absolute top-4 right-4">
           <ThemeToggle />
         </div>
-        <Card className="w-full max-w-md shadow-xl">
-          <CardHeader className="text-center">
-            <div className="mx-auto mb-4 w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-full flex items-center justify-center shadow-lg">
-              <CheckCircle className="w-8 h-8 text-white" />
+        <Card className="w-full max-w-md bg-bg-secondary shadow-xl py-6">
+        <CardHeader className="text-center px-8">
+            <div className="mx-auto mb-4 w-16 h-16 bg-primary dark:bg-accent rounded-full flex items-center justify-center shadow-lg">
+              <CheckCircle className="w-8 h-8 text-white dark:text-black" />
             </div>
-            <CardTitle className="text-2xl font-bold text-green-700 dark:text-green-300">Email Verified!</CardTitle>
-            <CardDescription>
-              Your account has been successfully verified. You can now sign in to CropAlert.
+            <CardTitle className="text-3xl font-bold !text-text-primary">Email Verified!</CardTitle>
+            <CardDescription className="text-text-secondary font-semibold text-md">
+              Your account has been successfully verified. You can now sign in to GrowGuard.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="px-8">
             <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-4">Redirecting you to sign in...</p>
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-600 mx-auto"></div>
+              <p className="text-md text-text-secondary mb-4">Redirecting you to sign in...</p>
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary dark:border-accent mx-auto"></div>
             </div>
           </CardContent>
         </Card>
@@ -205,25 +207,25 @@ export function EmailVerification() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 flex items-center justify-center p-4 transition-colors">
+    <div className="text-text-primary min-h-screen flex items-center justify-center p-4 transition-colors">
       <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div>
-      <Card className="w-full max-w-md shadow-xl">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-4 w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-full flex items-center justify-center shadow-lg">
-            <Mail className="w-8 h-8 text-white" />
+      <Card className="w-full max-w-md bg-bg-secondary shadow-xl py-6">
+        <CardHeader className="text-center px-6">
+          <div className="mx-auto mb-4 w-full flex items-center justify-center">
+            <img src={emailIcon} alt="w-full header image" className="dark:invert" />
           </div>
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold !text-text-primary">
             Verify Your Email
           </CardTitle>
-          <CardDescription>
-            We've sent a 6-digit verification code to <strong>{email}</strong>
+          <CardDescription className="text-text-secondary font-semibold text-md">
+            We've sent a 6-digit verification code to <strong className="text-text-primary">{email}</strong>
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {generalError && (
-            <Alert variant="destructive">
+            <Alert variant="destructive" className="mb-4 !text-error bg-red-100 border-red-500">
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>{generalError}</AlertDescription>
             </Alert>
@@ -244,22 +246,60 @@ export function EmailVerification() {
                           onChange={field.onChange}
                           disabled={isVerifying}
                         >
-                          <InputOTPGroup>
+                          <InputOTPGroup className="gap-2">
                             {Array.from({ length: 6 }, (_, index) => (
-                              <InputOTPSlot key={index} index={index} />
+                              <InputOTPSlot key={index} index={index} className="text-text-primary rounded-sm border border-border dark:border-border/25 focus:border-primary focus:ring-0 focus:ring-primary px-[16px] py-[10px]"/>
                             ))}
                           </InputOTPGroup>
                         </InputOTP>
                       </div>
                     </FormControl>
-                    <FormMessage>{getFieldError("key")}</FormMessage>
+                    <FormMessage className="text-center text-error">{getFieldError("key")}</FormMessage>
                   </FormItem>
                 )}
               />
-
+              <div className="text-center">
+                <p className="text-text-secondary font-semibold mt-2 space-y-2 text-center text-md">
+                  didn't get a code?{" "}
+                  <button
+                    type="button"
+                    onClick={handleResendEmail}
+                    disabled={!canResend || isResending}
+                    // className="text-primary dark:text-accent  hover:text-blue-800 underline disabled:text-gray-400 disabled:no-underline"
+                    className={cn("text-primary dark:text-accent underline disabled:text-text-secondary disabled:no-underline", canResend && "cursor-pointer")}
+                  >
+                    {isResending ? "sending..." : canResend ? "resend" : `resend in ${countdown}s`}
+                  </button>
+                </p>
+              </div>
+              {/* <div className="space-y-3">
+                <Button
+                  onClick={handleResendEmail}
+                  variant="outline"
+                  className="w-full"
+                  disabled={!canResend || isResending}
+                >
+                  {isResending ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                      Sending...
+                    </>
+                  ) : canResend ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 mr-2" />
+                      Resend Verification Code
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw className="w-4 h-4 mr-2" />
+                      Resend in {countdown}s
+                    </>
+                  )}
+                </Button>
+              </div> */}
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
+                className="w-full text-text-primary hover:text-white font-semibold uppercase bg-accent hover:bg-primary-hover cursor-pointer rounded-sm dark:hover:text-black dark:bg-primary-hover dark:hover:bg-accent"
                 disabled={isVerifying || form.watch("key").length !== 6}
               >
                 {isVerifying ? (
@@ -269,7 +309,7 @@ export function EmailVerification() {
                   </>
                 ) : (
                   <>
-                    <CheckCircle className="w-4 h-4 mr-2" />
+                    {/* <CheckCircle className="w-4 h-4 mr-2" /> */}
                     Verify Email
                   </>
                 )}
@@ -277,42 +317,11 @@ export function EmailVerification() {
             </form>
           </Form>
 
-          <div className="text-center text-sm text-muted-foreground space-y-2">
-            <p>Enter the 6-digit code from your email.</p>
-            <p>Didn't receive the email? Check your spam folder.</p>
-          </div>
-
-          <div className="space-y-3">
-            <Button
-              onClick={handleResendEmail}
-              variant="outline"
-              className="w-full"
-              disabled={!canResend || isResending}
-            >
-              {isResending ? (
-                <>
-                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                  Sending...
-                </>
-              ) : canResend ? (
-                <>
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  Resend Verification Code
-                </>
-              ) : (
-                <>
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  Resend in {countdown}s
-                </>
-              )}
-            </Button>
-          </div>
-
-          <div className="text-center">
+          <div className="text-text-secondary font-semibold mt-2 space-y-2 text-center text-md">
+            Back to
             <Link to="/register">
-              <Button variant="link" className="text-green-600 dark:text-green-400">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Registration
+              <Button variant="link" className="p-1 font-bold text-md cursor-pointer text-primary dark:text-accent ">
+                Sign up
               </Button>
             </Link>
           </div>
