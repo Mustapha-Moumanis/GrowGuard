@@ -7,8 +7,7 @@ import {
 import type { Alert, User } from "@/types";
 import { useState, useEffect, useRef } from "react";
 import L from "leaflet";
-import "leaflet/dist/leaflet.css"; // ✅ Load Leaflet CSS once globally
-// import "leaflet/dist/images/marker-shadow.png";
+import "leaflet/dist/leaflet.css";
 
 interface EnhancedMapProps {
   user?: User;
@@ -261,5 +260,4 @@ export function EnhancedMap({
       )}
     </div>
   );
-  focusOnAlert
 }
