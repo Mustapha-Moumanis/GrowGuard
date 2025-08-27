@@ -10,19 +10,10 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-// import {
-//   Menubar,
-//   MenubarContent,
-//   MenubarItem,
-//   MenubarMenu,
-//   MenubarSeparator,
-//   MenubarShortcut,
-//   MenubarTrigger,
-// } from "@/components/ui/menubar"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
-import { X, Send, Eye, Clock, AlertTriangle, Loader2, Target, MapPin, Rss, MapPinned } from "lucide-react"
+import { X, Send, Eye, Loader2, MapPin, Rss, MapPinned } from "lucide-react"
 import { alertsApi } from "@/lib/api"
 import LocationMap from "../location-map"
 
@@ -43,12 +34,6 @@ interface AlertCreationFormProps {
   onClose: () => void
   onSuccess?: (alert: any) => void
 }
-
-// const cropTypes = [
-//   "Wheat", "Corn", "Rice", "Soybeans", "Tomatoes", "Potatoes", "Cotton",
-//   "Barley", "Oats", "Sorghum", "Sunflower", "Canola", "Sugar Beet", "Alfalfa",
-//   "Lettuce", "Carrots", "Onions", "Peppers", "Cucumbers", "Beans", "Peas", "Spinach",
-// ]
 
 export const cropTypes = [
   { value: "wheat", label: "Wheat", icon: "🌾", color: "bg-yellow-100 text-yellow-800" },
@@ -90,14 +75,6 @@ const radiusOptions = [
   { value: 10000, label: "10km" },
   { value: 25000, label: "25km" },
 ]
-
-// const validityPeriods = [
-//   { value: "1d", label: "1 Day" },
-//   { value: "3d", label: "3 Days" },
-//   { value: "1w", label: "1 Week" },
-//   { value: "2w", label: "2 Weeks" },
-//   { value: "1m", label: "1 Month" },
-// ]
 
 export function AlertCreationForm({ onClose, onSuccess }: AlertCreationFormProps) {
   const [isLoading, setIsLoading] = useState(false)
@@ -262,7 +239,6 @@ export function AlertCreationForm({ onClose, onSuccess }: AlertCreationFormProps
                     <MapPinned className="h-3.5 w-3.5" />
                   </span>
                 </Button>
-                {/* <span className="text-sm">Valid for {validityPeriods.find(p => p.value === formData.validityPeriod)?.label}</span> */}
               </div>
             </div>
 
@@ -394,20 +370,6 @@ export function AlertCreationForm({ onClose, onSuccess }: AlertCreationFormProps
                         ))}
                       </div>
                     </FormControl>
-                    {/* <Select onValueChange={field.onChange} value={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="w-full !border-border/25">
-                          <SelectValue placeholder="Select type" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="max-h-60 bg-bg-primary text-text-primary border border-border/25 rounded-lg">
-                        {severityLevels.map((level) => (
-                          <SelectItem key={level.value} value={level.value}>
-                            {level.icon} {level.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select> */}
                     <FormMessage className="text-error" />
                   </FormItem>
                 )}
@@ -511,33 +473,6 @@ export function AlertCreationForm({ onClose, onSuccess }: AlertCreationFormProps
                   </FormItem>
                 )}
               />
-
-              {/* Validity Period */}
-              {/* <FormField
-                control={form.control}
-                name="validityPeriod"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Valid For</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {validityPeriods.map((period) => (
-                          <SelectItem key={period.value} value={period.value}>
-                            <Clock className="w-4 h-4 mr-2 inline" />
-                            {period.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage className="text-error" />
-                  </FormItem>
-                )}
-              /> */}
 
               {/* Action Buttons */}
               <div className="flex gap-3 pt-6 border-t">
