@@ -10,7 +10,7 @@ EXISTS=$(python ./manage.py shell -c "
 from django.contrib.auth import get_user_model
 User = get_user_model()
 print(User.objects.filter(username='${DJANGO_SUPERUSER_USERNAME}', is_superuser=True).exists())
-" 2>/dev/null)
+" 2>/dev/null | tail -n 1)
 
 if [ "$EXISTS" = "False" ]; then
     echo "Creating superuser..."
@@ -37,4 +37,4 @@ else
 fi
 
 # Start the server
-exec python manage.py runserver 0.0.0.0:8000
+exec python manage.py runserver 0.0.0.0:8080

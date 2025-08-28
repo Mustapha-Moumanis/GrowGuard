@@ -120,7 +120,7 @@ export const webSocketAlerts = (): WebSocketAlertsReturn => {
         socketRef.current.close();
       }
 
-      const baseUrl = import.meta.env.VITE_WEBSOCKET_URL || 'ws://localhost:8000';
+      const baseUrl = import.meta.env.VITE_WEBSOCKET_URL || 'ws://localhost:8080';
       const wsUrl = `${baseUrl}/ws/notifications/?token=${encodeURIComponent(token)}`;
       
       console.log('Connecting to WebSocket:', wsUrl);
