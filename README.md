@@ -116,7 +116,7 @@ Ensure you have the following installed:
 
 ### 1. Clone & Navigate
 ```bash
-git clone https://github.com/your-username/GrowGuard.git
+git clone https://github.com/Mustapha-Moumanis/GrowGuard.git
 cd GrowGuard
 ```
 
@@ -163,9 +163,9 @@ docker-compose up --build
 
 ### 4. Access Your Application
 - **Frontend Application:** [http://localhost:3000](http://localhost:3000)
-- **Backend API:** [http://localhost:8000](http://localhost:8000)
-- **Django Admin Panel:** [http://localhost:8000/admin](http://localhost:8000/admin)
-- **API Documentation:** [http://localhost:8000/api/docs](http://localhost:8000/api/docs)
+- **Backend API:** [http://localhost:8080](http://localhost:8080)
+- **Django Admin Panel:** [http://localhost:8080/admin](http://localhost:8080/admin)
+- **API Documentation:** [http://localhost:8080/api/docs](http://localhost:8080/api/docs)
 
 ### 5. Default Login Credentials
 - **Admin User:** admin@GrowGuard.com / admin123
@@ -179,7 +179,7 @@ docker-compose up --build
 
 **Create an Agricultural Alert:**
 ```bash
-curl -X POST http://localhost:8000/api/alerts/ \
+curl -X POST http://localhost:8080/api/alerts/ \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -d '{
@@ -348,9 +348,8 @@ make up
 ---
 
 ## 📞 Support & Contact
-https://github.com/Mustapha-Moumanis/agricultural-app/edit/main/README.md
+
 - **Issues:** Open an issue on [GitHub Issues](https://github.com/Mustapha-Moumanis/GrowGuard/issues)
-- **Discussions:** Join our [GitHub Discussions](https://github.com/Mustapha-Moumanis/GrowGuard/discussions)
 - **Email:** [moumanis.mustapha@gmail.com](mailto:moumanis.mustapha@gmail.com)
 
 ---
