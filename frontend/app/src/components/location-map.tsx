@@ -46,6 +46,13 @@ export default function LocationMap({user = null, selectedLocation, setSelectedL
     const isInitializingRef = useRef(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
+	const pinIcon = L.icon({
+		iconUrl: "/src/assets/pin.png",
+		iconSize: [44, 52],
+		iconAnchor: [22, 52],
+		popupAnchor: [0, -52],
+	});
+
     // Clean up function
     const cleanupMap = () => {
         if (markerRef.current) {
@@ -145,7 +152,7 @@ export default function LocationMap({user = null, selectedLocation, setSelectedL
                             if (markerRef.current) {
                                 markerRef.current.setLatLng([lat, lng]);
                             } else {
-                                markerRef.current = L.marker([lat, lng]).addTo(map);
+                                markerRef.current = L.marker([lat, lng], { icon: pinIcon }).addTo(map);
                             }
                             markerRef.current.bindPopup(`
                                 <b>${result.city || 'Unknown city'}</b><br>
@@ -185,7 +192,10 @@ export default function LocationMap({user = null, selectedLocation, setSelectedL
 
                     // Add initial marker if location is selected
                     if (selectedLocation) {
-                        markerRef.current = L.marker([selectedLocation.latitude, selectedLocation.longitude]).addTo(map);
+                        markerRef.current = L.marker(
+							[selectedLocation.latitude, selectedLocation.longitude],
+							{ icon: pinIcon }
+						).addTo(map);
                         markerRef.current.bindPopup(`
                             <b>${selectedLocation.city || 'Unknown city'}</b><br>
                             ${selectedLocation.region || 'Unknown region'}<br>
@@ -395,7 +405,9 @@ export default function LocationMap({user = null, selectedLocation, setSelectedL
                                 if (markerRef.current) {
                                     markerRef.current.setLatLng([latitude, longitude]);
                                 } else {
-                                    markerRef.current = L.marker([latitude, longitude]).addTo(mapInstanceRef.current);
+                                    markerRef.current = L.marker([latitude, longitude], { icon: pinIcon }).addTo(
+										mapInstanceRef.current
+									);
                                 }
                                 markerRef.current.bindPopup(`
                                     <b>${result.city || 'Unknown city'}</b><br>
@@ -433,7 +445,7 @@ export default function LocationMap({user = null, selectedLocation, setSelectedL
                                 if (markerRef.current) {
                                     markerRef.current.setLatLng([latitude, longitude]);
                                 } else {
-                                    markerRef.current = L.marker([latitude, longitude]).addTo(mapInstanceRef.current);
+                                    markerRef.current = L.marker([latitude, longitude], { icon: pinIcon }).addTo(mapInstanceRef.current);
                                 }
                                 markerRef.current.bindPopup(`
                                     <b>Selected Location</b><br>

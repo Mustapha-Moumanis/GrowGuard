@@ -6,8 +6,7 @@ import { RegisterForm } from "./components/auth/register-form"
 import { EmailVerification } from "./components/auth/email-verification"
 import { AgronomistDashboard } from "./components/dashboard/agronomist"
 import { FarmerDashboard } from "./components/dashboard/farmer"
-// import { LocationSetupModal } from "./components/auth/location-setup-modal"
-// import { locationService } from "./lib/location"
+import { NotFound } from "./components/NotFound/NotFound"
 import { AuthProvider, useAuth } from "./hooks/use-auth"
 import { ProtectedRoute } from "./components/auth/protected-route"
 import { Toaster } from "sonner"
@@ -38,6 +37,7 @@ function AppRoutes() {
         }
       />
       <Route path="/" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />} />
+	  <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
