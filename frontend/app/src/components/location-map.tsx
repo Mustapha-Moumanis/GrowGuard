@@ -47,7 +47,7 @@ export default function LocationMap({user = null, selectedLocation, setSelectedL
     const containerRef = useRef<HTMLDivElement>(null);
 
 	const pinIcon = L.icon({
-		iconUrl: "/src/assets/pin.png",
+		iconUrl: "/pin.png",
 		iconSize: [44, 52],
 		iconAnchor: [22, 52],
 		popupAnchor: [0, -52],
