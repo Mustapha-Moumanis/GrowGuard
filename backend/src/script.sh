@@ -36,5 +36,7 @@ else
     echo "Superuser already exists"
 fi
 
+python manage.py collectstatic --noinput
+
 # Start the server
 exec python manage.py runserver 0.0.0.0:8000
