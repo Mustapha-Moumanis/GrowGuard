@@ -209,12 +209,13 @@ if env("DEBUG"):
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     # Use SMTP email backend in production
-    # Uncomment and configure the following lines to use SMTP
-    EMAIL_CONFIG = env.email(
-        'EMAIL_URL',
-        default='smtp://user:password@localhost:587'
-    )
-    vars().update(EMAIL_CONFIG)
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+    EMAIL_HOST = env('EMAIL_HOST')
+    EMAIL_PORT = env('EMAIL_PORT', default=587)
+    EMAIL_HOST_USER = env('EMAIL_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
+    EMAIL_USE_TLS = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -148,8 +148,8 @@ EMAIL_URL=smtp://user:password@localhost:25
 
 **Frontend Environment `frontend/.env`:**
 ```env
-VITE_API_URL=http://localhost:8000
-VITE_WS_URL=ws://localhost:8000
+VITE_API_URL=http://localhost:8080
+VITE_WS_URL=ws://localhost:8080
 ```
 
 ### 3. Launch the Application
